@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ascendra International — Sumali Na!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #FF6B00;
+      --orange2: #FF8C00;
+      --dark: #0a0a0a;
+      --dark2: #141414;
+      --dark3: #1c1c1c;
+      --white: #ffffff;
+      --muted: #9a9188;
+      --gcash-blue: #007DFF;
+      --gcash-blue2: #0560C9;
+      --green: #22c55e;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background: var(--orange);
+      padding: 11px 20px;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--dark);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #1e1e1e;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; letter-spacing: -1px; color: #fff; }
+    .logo span { color: var(--orange); }
+
+    /* HERO */
+    .page-hero {
+      background: var(--dark);
+      padding: 52px 24px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,107,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #0a1a0a;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+    }
+    .page-hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(24px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: #fff;
+      max-width: 700px;
+      margin: 0 auto 16px;
+    }
+    .page-hero h1 span { color: var(--orange); }
+    .page-hero p {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 28px;
+      line-height: 1.8;
+    }
+
+    /* PROGRESS STEPS */
+    .steps-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto 48px;
+      padding: 0 20px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      position: relative;
+    }
+    .step-circle {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .step.done .step-circle { background: var(--green); color: #fff; }
+    .step.active .step-circle { background: var(--orange); color: #fff; box-shadow: 0 0 0 4px rgba(255,107,0,0.2); }
+    .step.inactive .step-circle { background: #2a2a2a; color: #555; }
+    .step-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+    .step.done .step-label { color: var(--green); }
+    .step.active .step-label { color: var(--orange); }
+    .step.inactive .step-label { color: #444; }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: #222;
+      margin-bottom: 22px;
+      max-width: 60px;
+    }
+    .step-line.done { background: var(--green); }
+
+    /* MAIN LAYOUT */
+    .payment-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto 64px;
+      padding: 0 20px;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .payment-layout { grid-template-columns: 1fr; }
+      .order-summary { order: -1; }
+    }
+
+    /* PACKAGE SELECTOR */
+    .card {
+      background: var(--dark2);
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+    }
+    .card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .package-option {
+      border: 2px solid #252525;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+    .package-option:hover { border-color: #3a3a3a; }
+    .package-option.selected {
+      border-color: var(--orange);
+      background: rgba(255,107,0,0.05);
+    }
+    .package-option.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 14px; right: 16px;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 24px;
+      text-align: center;
+    }
+    .pkg-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .pkg-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .pkg-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .pkg-badge.popular { background: rgba(255,107,0,0.15); color: var(--orange); border: 1px solid var(--orange); }
+    .pkg-badge.best { background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid var(--green); }
+    .pkg-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .pkg-price span { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .pkg-desc { font-size: 12px; color: #666; line-height: 1.6; }
+    .pkg-includes {
+      margin-top: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .package-option.selected .pkg-includes { display: flex; }
+    .pkg-inc-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #888;
+    }
+    .pkg-inc-item::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 11px; }
+
+    /* GCASH PAYMENT */
+    .gcash-card {
+      background: var(--dark2);
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+    }
+    .gcash-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .gcash-banner {
+      background: linear-gradient(135deg, var(--gcash-blue) 0%, var(--gcash-blue2) 100%);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gcash-banner::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .gcash-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+    .gcash-logo span { color: #7dd3fc; }
+    .gcash-sub { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+    .gcash-number-box {
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 14px 20px;
+      margin-bottom: 8px;
+    }
+    .gcash-number-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .gcash-number {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    .gcash-name {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+    }
+    .copy-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .2s;
+      margin-top: 12px;
+      width: 100%;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.22); }
+
+    /* STEPS TO PAY */
+    .pay-steps { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+    .pay-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .pay-step-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(255,107,0,0.12);
+      border: 1px solid var(--orange);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+    .pay-step-text { font-size: 13px; color: #888; line-height: 1.6; }
+    .pay-step-text strong { color: #ccc; }
+
+    /* PROOF UPLOAD */
+    .proof-section { margin-bottom: 0; }
+    .proof-section label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 8px;
+    }
+    .proof-dropzone {
+      border: 2px dashed #2a2a2a;
+      border-radius: 12px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+    }
+    .proof-dropzone:hover { border-color: var(--orange); background: rgba(255,107,0,0.03); }
+    .proof-dropzone.has-file { border-color: var(--green); background: rgba(34,197,94,0.04); }
+    .drop-icon { font-size: 32px; margin-bottom: 10px; }
+    .drop-text { font-size: 13px; color: #555; line-height: 1.7; }
+    .drop-text strong { color: var(--orange); }
+    #proof-input { display: none; }
+    .file-name { font-size: 12px; color: var(--green); margin-top: 8px; font-weight: 600; display: none; }
+
+    /* ORDER SUMMARY */
+    .order-summary {
+      background: var(--dark2);
+      border: 1px solid #222;
+      border-radius: 16px;
+      padding: 28px 24px;
+      position: sticky;
+      top: 80px;
+    }
+    .order-summary h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .summary-pkg {
+      background: var(--dark3);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .summary-pkg-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .summary-pkg-price {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--orange);
+    }
+    .summary-pkg-price span { font-size: 14px; color: var(--muted); font-weight: 500; }
+    .summary-divider { height: 1px; background: #222; margin: 16px 0; }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .summary-row .lbl { color: var(--muted); }
+    .summary-row .val { color: #ddd; font-weight: 600; font-family: 'Montserrat', sans-serif; }
+    .summary-row.total .lbl { color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; }
+    .summary-row.total .val { color: var(--orange); font-size: 18px; }
+    .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: opacity .15s, transform .1s, box-shadow .2s;
+      box-shadow: 0 8px 30px rgba(255,107,0,0.3);
+    }
+    .submit-btn:hover { opacity: .9; box-shadow: 0 12px 40px rgba(255,107,0,0.45); }
+    .submit-btn:active { transform: scale(.98); }
+    .submit-btn:disabled { background: #2a2a2a; color: #555; box-shadow: none; cursor: not-allowed; }
+    .trust-items { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #444; }
+    .trust-item::before { content: '🔒'; font-size: 12px; }
+
+    /* SUCCESS SCREEN */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .success-icon { font-size: 64px; margin-bottom: 20px; }
+    .success-screen h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .success-screen h2 span { color: var(--green); }
+    .success-screen p { font-size: 15px; color: var(--muted); line-height: 1.8; }
+
+    /* FOOTER */
+    footer {
+      background: #060606;
+      padding: 32px 24px;
+      text-align: center;
+      border-top: 1px solid #181818;
+    }
+    .foot-logo { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+    .foot-logo span { color: var(--orange); }
+    footer p { font-size: 11px; color: #2e2e2e; line-height: 2; }
+    footer a { color: var(--orange); text-decoration: none; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">🔒 Secure na Payment — GCash Accepted · Opisyal na Ascendra Sign-Up</div>
+
+  <nav>
+    <div class="logo"><span>A</span>SCENDRA</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="step-badge">✅ Hakbang 3 ng 3 — Kumpleto na!</div>
+    <h1>Pumili ng Package at <span>Sumali Na Sa Ascendra!</span></h1>
+    <p>Isa ka na lang hakbang para maging opisyal na miyembro ng Ascendra. Piliin ang package na angkop sa iyo at bayaran via GCash.</p>
+
+    <!-- PROGRESS STEPS -->
+    <div class="steps-row">
+      <div class="step done">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Chatbot</div>
+      </div>
+      <div class="step-line done"></div>
+      <div class="step done">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Panood VSL</div>
+      </div>
+      <div class="step-line done"></div>
+      <div class="step active">
+        <div class="step-circle">3</div>
+        <div class="step-label">Bayad</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div style="max-width:960px;margin:0 auto;padding:0 20px 64px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;" id="payment-layout">
+
+    <!-- LEFT COLUMN -->
+    <div>
+
+      <!-- PACKAGE SELECTOR -->
+      <div class="card reveal">
+        <h3>📦 Piliin ang Iyong Package</h3>
+
+        <!-- BUILDER -->
+        <div class="package-option selected" onclick="selectPackage(this,'Builder Package','17,500')" data-name="Builder Package" data-price="17,500">
+          <div class="pkg-top">
+            <div class="pkg-name">Builder</div>
+            <div class="pkg-badge popular">Entry Level</div>
+          </div>
+          <div class="pkg-price">₱ 17,500 <span>isang beses</span></div>
+          <div class="pkg-desc">Para sa mga baguhan na gustong magsimula sa Ascendra. Perfect entry point para sa health at business journey mo.</div>
+          <div class="pkg-includes">
+            <div class="pkg-inc-item">BV: 1,000 · UV: 500 · PV: 800</div>
+            <div class="pkg-inc-item">MVP: Best Barley 3x, Barley Fusion 3x, Celestial Glow 6x, Innur Harmony 1x, Basic AI 2x</div>
+            <div class="pkg-inc-item">MV: Best Barley 4x, Barley Fusion 4x, O-Megalife 1x, Celestial Glow 4x, Innur Harmony 2x</div>
+            <div class="pkg-inc-item">MP: Basic AI 6x</div>
+          </div>
+        </div>
+
+        <!-- CONSULTANT -->
+        <div class="package-option" onclick="selectPackage(this,'Consultant Package','45,500')" data-name="Consultant Package" data-price="45,500">
+          <div class="pkg-top">
+            <div class="pkg-name">Consultant</div>
+            <div class="pkg-badge popular">Sikat</div>
+          </div>
+          <div class="pkg-price">₱ 45,500 <span>isang beses</span></div>
+          <div class="pkg-desc">Para sa mga seryosong gustong bumuo ng negosyo at mapalaki ang kita. Mas maraming products, mas mataas na commission.</div>
+          <div class="pkg-includes">
+            <div class="pkg-inc-item">BV: 3,200 · UV: 700 · PV: 2,000</div>
+            <div class="pkg-inc-item">MVP: Best Barley 8x, Barley Fusion 6x, O-Megalife 1x, Celestial Glow 8x, Innur Harmony 3x, Basic AI 4x, Premium AI 1x</div>
+            <div class="pkg-inc-item">MV: Best Barley 10x, Barley Fusion 10x, O-Megalife 2x, Celestial Glow 18x, Innur Harmony 5x</div>
+            <div class="pkg-inc-item">MP: Basic AI 12x, Premium AI 2x</div>
+          </div>
+        </div>
+
+        <!-- DIRECTOR -->
+        <div class="package-option" onclick="selectPackage(this,'Director Package','110,500')" data-name="Director Package" data-price="110,500">
+          <div class="pkg-top">
+            <div class="pkg-name">Director</div>
+            <div class="pkg-badge best">Best Value</div>
+          </div>
+          <div class="pkg-price">₱ 110,500 <span>isang beses</span></div>
+          <div class="pkg-desc">Para sa mga leaders na handang mag-invest ng malaki para sa mas malaking kita at mas mataas na rank.</div>
+          <div class="pkg-includes">
+            <div class="pkg-inc-item">BV: 8,000 · UV: 2,000 · PV: 5,000</div>
+            <div class="pkg-inc-item">MVP: Best Barley 22x, Barley Fusion 20x, O-Megalife 2x, Celestial Glow 24x, Innur Harmony 6x, Basic AI 8x, Premium AI 2x</div>
+            <div class="pkg-inc-item">MV: Best Barley 26x, Barley Fusion 26x, O-Megalife 6x, Celestial Glow 32x, Innur Harmony 10x</div>
+            <div class="pkg-inc-item">MP: Basic AI 32x, Premium AI 4x · MP+: Basic AI 24x, Premium AI 4x, Ascend Health+ 1x</div>
+          </div>
+        </div>
+
+        <!-- EXECUTIVE -->
+        <div class="package-option" onclick="selectPackage(this,'Executive Package','199,800')" data-name="Executive Package" data-price="199,800">
+          <div class="pkg-top">
+            <div class="pkg-name">Executive</div>
+            <div class="pkg-badge" style="background:rgba(255,215,0,0.12);color:#FFD700;border:1px solid #FFD700;">Top Tier 👑</div>
+          </div>
+          <div class="pkg-price">₱ 199,800 <span>isang beses</span></div>
+          <div class="pkg-desc">Para sa mga top leaders na gustong mag-maximize ng lahat — pinakamataas na BV, UV, PV, at VIP benefits.</div>
+          <div class="pkg-includes">
+            <div class="pkg-inc-item">BV: 10,000 · UV: 3,000 · PV: 9,000</div>
+            <div class="pkg-inc-item">MVP: Best Barley 38x, Barley Fusion 38x, O-Megalife 6x, Celestial Glow 40x, Innur Harmony 10x, Basic AI 12x, Premium AI 4x</div>
+            <div class="pkg-inc-item">MV: Best Barley 48x, Barley Fusion 48x, O-Megalife 12x, Celestial Glow 56x, Innur Harmony 16x</div>
+            <div class="pkg-inc-item">MP: Basic AI 60x, Premium AI 6x · MP+: Basic AI 48x, Premium AI 4x, Ascend Health+ 2x</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- GCASH INSTRUCTIONS -->
+      <div class="gcash-card reveal">
+        <h3>💙 Bayaran via GCash</h3>
+        <div class="gcash-banner">
+          <div class="gcash-logo">G<span>Cash</span></div>
+          <div class="gcash-sub">I-send ang bayad sa number na ito</div>
+          <div class="gcash-number-box">
+            <div class="gcash-number-label">GCash Number</div>
+            <div class="gcash-number" id="gcash-num">0912 145 6808</div>
+            <div class="gcash-name">Bryan Trinidad</div>
+          </div>
+          <button class="copy-btn" onclick="copyNumber()">📋 I-copy ang GCash Number</button>
+        </div>
+        <div class="pay-steps">
+          <div class="pay-step">
+            <div class="pay-step-num">1</div>
+            <div class="pay-step-text">Buksan ang iyong <strong>GCash app</strong> at pindutin ang <strong>"Send Money"</strong></div>
+          </div>
+          <div class="pay-step">
+            <div class="pay-step-num">2</div>
+            <div class="pay-step-text">I-enter ang GCash number: <strong>0912 145 6808 (Bryan Trinidad)</strong> at ang tamang halaga base sa iyong napiling package</div>
+          </div>
+          <div class="pay-step">
+            <div class="pay-step-num">3</div>
+            <div class="pay-step-text">Sa <strong>Message/Note</strong>, isulat ang iyong buong pangalan at ang package na napili mo</div>
+          </div>
+          <div class="pay-step">
+            <div class="pay-step-num">4</div>
+            <div class="pay-step-text">I-screenshot ang <strong>GCash confirmation</strong> at i-upload sa form sa kanan</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN — GHL FORM -->
+    <div class="reveal">
+
+      <!-- ORDER SUMMARY (updates when package is clicked) -->
+      <div class="order-summary" style="margin-bottom:20px;position:static;">
+        <h3>🧾 Order Summary</h3>
+        <div class="summary-pkg">
+          <div class="summary-pkg-name" id="sum-pkg-name">Builder Package</div>
+          <div class="summary-pkg-price" id="sum-pkg-price">₱ 17,500 <span>one-time</span></div>
+        </div>
+        <div style="font-size:12px;color:#444;margin-bottom:16px;line-height:1.7;">
+          ✓ Kasama ang lahat ng package benefits<br>
+          ✓ Official Ascendra membership<br>
+          ✓ Magsisimula kaagad pagkatapos ma-verify
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row">
+          <span class="lbl">Package</span>
+          <span class="val" id="sum-row-pkg">Builder</span>
+        </div>
+        <div class="summary-row">
+          <span class="lbl">Payment Method</span>
+          <span class="val">GCash</span>
+        </div>
+        <div class="summary-row">
+          <span class="lbl">Processing Fee</span>
+          <span class="val" style="color:var(--green)">FREE</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total">
+          <span class="lbl">TOTAL</span>
+          <span class="val" id="sum-total">₱ 17,500</span>
+        </div>
+      </div>
+
+      <!-- GHL EMBEDDED FORM -->
+      <div style="background:var(--dark2);border:1px solid #2a2a2a;border-top:3px solid var(--orange);border-radius:16px;padding:24px 20px;">
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--orange);margin-bottom:16px;">
+          📋 Punan ang Form para Ma-complete ang Sign-Up
+        </div>
+        <iframe
+          src="https://api.leadconnectorhq.com/widget/form/dHh5cW3iWKg0XLheCmUD"
+          style="width:100%;height:940px;border:none;border-radius:8px;"
+          id="inline-dHh5cW3iWKg0XLheCmUD"
+          data-layout="{'id':'INLINE'}"
+          data-trigger-type="alwaysShow"
+          data-trigger-value=""
+          data-activation-type="alwaysActivated"
+          data-activation-value=""
+          data-deactivation-type="neverDeactivate"
+          data-deactivation-value=""
+          data-form-name="Ascendra Payment Form"
+          data-height="940"
+          data-layout-iframe-id="inline-dHh5cW3iWKg0XLheCmUD"
+          data-form-id="dHh5cW3iWKg0XLheCmUD"
+          title="Ascendra Payment Form">
+        </iframe>
+        <script src="https://link.msgsndr.com/js/form_embed.js"></script>
+        <div class="trust-items" style="margin-top:16px;">
+          <div class="trust-item">Ligtas at secure ang lahat ng transaksyon</div>
+          <div class="trust-item">Mave-verify ang payment sa loob ng 24 oras</div>
+          <div class="trust-item">May suporta ang team kung may katanungan ka</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SUCCESS SCREEN (hidden by default) -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">🎉</div>
+    <h2>Salamat! <span>Welcome sa Ascendra!</span></h2>
+    <p>Natanggap na namin ang iyong payment submission. Ibe-verify ito ng aming team sa loob ng <strong>24 oras</strong> at makikipag-ugnayan sa iyo via Viber o SMS.<br><br>Handa ka na bang simulan ang iyong journey tungo sa mas malusog na katawan at mas magandang kinabukasan? 🚀</p>
+  </div>
+
+  <footer>
+    <div class="foot-logo"><span>A</span>SCENDRA</div>
+    <p>© 2026 Ascendra International. All Rights Reserved.<br>
+    <a href="#">Privacy Policy</a> · <a href="#">Terms & Conditions</a><br><br>
+    Ang mga resulta ay maaaring mag-iba sa bawat tao. Ang kita ay nakasalalay sa iyong pagsisikap at dedikasyon.</p>
+  </footer>
+
+  <script>
+    // ── PACKAGE SELECTION ──
+    function selectPackage(el, name, price) {
+      document.querySelectorAll('.package-option').forEach(function(p){ p.classList.remove('selected'); });
+      el.classList.add('selected');
+      document.getElementById('sum-pkg-name').textContent = name;
+      document.getElementById('sum-pkg-price').innerHTML = price + ' <span>one-time</span>';
+      document.getElementById('sum-row-pkg').textContent = name.replace(' Package','');
+      document.getElementById('sum-total').textContent = price;
+    }
+
+    // ── COPY GCASH NUMBER ──
+    function copyNumber() {
+      const num = document.getElementById('gcash-num').textContent;
+      navigator.clipboard.writeText(num).then(function(){
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = '✅ Nakopya na!';
+        setTimeout(function(){ btn.textContent = '📋 I-copy ang GCash Number'; }, 2000);
+      });
+    }
+
+    // ── FILE UPLOAD ──
+    function handleFile(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const dz = document.getElementById('dropzone');
+        const fn = document.getElementById('file-name');
+        dz.classList.add('has-file');
+        fn.style.display = 'block';
+        fn.textContent = '✅ ' + file.name;
+        document.querySelector('.drop-icon').textContent = '✅';
+        document.querySelector('.drop-text').innerHTML = 'Na-upload na ang screenshot. <strong>I-click para palitan.</strong>';
+      }
+    }
+
+    // ── SUBMIT ──
+    function handleSubmit() {
+      const proofInput = document.getElementById('proof-input');
+      if (!proofInput.files || !proofInput.files[0]) {
+        alert('Pakiusap mag-upload muna ng GCash payment screenshot bago mag-submit. 😊');
+        return;
+      }
+      const btn = document.getElementById('submit-btn');
+      btn.textContent = 'Isinusumite...';
+      btn.disabled = true;
+      // ── Replace with actual form submission / webhook / CRM integration ──
+      setTimeout(function(){
+        document.getElementById('payment-layout').style.display = 'none';
+        document.querySelector('.page-hero').style.display = 'none';
+        const ss = document.getElementById('success-screen');
+        ss.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 1500);
+    }
+
+    // ── SCROLL REVEAL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){ entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(function(el){ observer.observe(el); });
+  </script>
+
+</body>
+</html>
