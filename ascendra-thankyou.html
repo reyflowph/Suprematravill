@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ascendra — Salamat! Payment Received!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #FF6B00;
+      --orange2: #FF8C00;
+      --dark: #0a0a0a;
+      --dark2: #141414;
+      --dark3: #1c1c1c;
+      --white: #ffffff;
+      --muted: #9a9188;
+      --green: #22c55e;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background: var(--orange);
+      padding: 11px 20px;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--dark);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; letter-spacing: -1px; color: #fff; }
+    .logo span { color: var(--orange); }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+    .card {
+      background: var(--dark2);
+      border: 1px solid #222;
+      border-radius: 20px;
+      padding: 52px 40px;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      animation: fadeUp .6s ease both;
+    }
+
+    /* SUCCESS ICON */
+    .success-ring {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.1);
+      border: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .check-icon {
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    /* HEADING */
+    .tag {
+      display: inline-block;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 30px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 900;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    h1 span { color: var(--orange); }
+    .subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .subtitle strong { color: #ddd; }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: #222;
+      margin: 0 0 32px;
+    }
+
+    /* WHAT HAPPENS NEXT */
+    .next-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--dark3);
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .step-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .step-text p {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .step-text p strong { color: #ccc; }
+
+    /* WAIT BOX */
+    .wait-box {
+      background: #0d1a0d;
+      border: 1px solid #1a3a1a;
+      border-left: 3px solid var(--green);
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+    .wait-box h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wait-box p {
+      font-size: 13px;
+      color: #6a8a6a;
+      line-height: 1.8;
+    }
+    .wait-box p strong { color: #8ab88a; }
+
+    /* CHANNELS */
+    .channels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .channel {
+      background: var(--dark3);
+      border: 1px solid #252525;
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .channel-icon { font-size: 24px; flex-shrink: 0; }
+    .channel-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #ddd;
+    }
+    .channel-desc { font-size: 11px; color: #555; margin-top: 2px; }
+
+    /* TIMER */
+    .timer-section {
+      background: var(--dark3);
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 32px;
+    }
+    .timer-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+    .timer-display {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: 4px;
+    }
+    .timer-sub {
+      font-size: 11px;
+      color: #444;
+      margin-top: 6px;
+    }
+
+    /* FOOTER NOTE */
+    .footer-note {
+      font-size: 12px;
+      color: #333;
+      line-height: 1.8;
+      padding-top: 24px;
+      border-top: 1px solid #1a1a1a;
+    }
+    .footer-note a { color: var(--orange); text-decoration: none; }
+
+    /* FOOTER */
+    footer {
+      background: #060606;
+      padding: 28px 24px;
+      text-align: center;
+      border-top: 1px solid #181818;
+    }
+    .foot-logo { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .foot-logo span { color: var(--orange); }
+    footer p { font-size: 11px; color: #2e2e2e; line-height: 2; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.2); }
+      50%       { box-shadow: 0 0 0 12px rgba(34,197,94,0); }
+    }
+
+    @media (max-width: 500px) {
+      .card { padding: 36px 20px; }
+      .channels { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">🎉 Payment Received — Salamat sa Pagsali sa Ascendra!</div>
+
+  <nav>
+    <div class="logo"><span>A</span>SCENDRA</div>
+  </nav>
+
+  <div class="main">
+    <div class="card">
+
+      <!-- SUCCESS ICON -->
+      <div class="success-ring">
+        <div class="check-icon">✅</div>
+      </div>
+
+      <!-- HEADING -->
+      <div class="tag">Payment Submitted Successfully</div>
+      <h1>Salamat, <span>at Welcome<br>sa Ascendra!</span> 🎉</h1>
+      <p class="subtitle">
+        Natanggap na namin ang iyong payment submission. 
+        <strong>Huwag mag-alala</strong> — ibe-verify namin ito 
+        ng aming team at aabisuhan ka namin agad 
+        kapag confirmed na!
+      </p>
+
+      <div class="divider"></div>
+
+      <!-- WHAT HAPPENS NEXT -->
+      <div class="next-title">Ano ang Susunod na Mangyayari?</div>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-icon">🔍</div>
+          <div class="step-text">
+            <h3>Step 1 — I-verify ang Iyong Payment</h3>
+            <p>Ibe-verify ng aming team ang iyong GCash payment submission. 
+            Ginagawa ito para masiguro na <strong>ligtas at tama</strong> 
+            ang lahat ng transaksyon.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">📧</div>
+          <div class="step-text">
+            <h3>Step 2 — Abangan ang Email Confirmation</h3>
+            <p>Pagkatapos ma-verify, makakatanggap ka ng 
+            <strong>official welcome email</strong> mula sa Ascendra 
+            kasama ang lahat ng impormasyon tungkol sa iyong 
+            membership at mga susunod na hakbang.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">💬</div>
+          <div class="step-text">
+            <h3>Step 3 — Abangan ang Facebook Messenger</h3>
+            <p>Magpapadala rin kami ng <strong>welcome message 
+            sa iyong Facebook Messenger</strong> para mabilis 
+            kang ma-update at makapag-usap sa aming team.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">🚀</div>
+          <div class="step-text">
+            <h3>Step 4 — Simulan ang Iyong Journey!</h3>
+            <p>Kapag confirmed na — ia-add ka sa aming 
+            <strong>community group</strong>, ia-assign ang iyong 
+            personal na mentor, at magsisimula na ang iyong 
+            Ascendra journey! 🧡</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- WAIT BOX -->
+      <div class="wait-box">
+        <h3>⏳ Gaano Katagal ang Verification?</h3>
+        <p>Karaniwang nata-tapos ang verification sa loob ng 
+        <strong>24 hours</strong>. Kung hindi ka pa nakakatanggap 
+        ng confirmation after 24 hours, huwag mag-atubiling 
+        makipag-ugnayan sa aming team directly.</p>
+      </div>
+
+      <!-- CHANNELS -->
+      <div class="next-title">Abangan ang Confirmation Dito</div>
+      <div class="channels">
+        <div class="channel">
+          <div class="channel-icon">📧</div>
+          <div>
+            <div class="channel-name">Email</div>
+            <div class="channel-desc">Official confirmation at welcome message</div>
+          </div>
+        </div>
+        <div class="channel">
+          <div class="channel-icon">💬</div>
+          <div>
+            <div class="channel-name">FB Messenger</div>
+            <div class="channel-desc">Welcome message at community invite</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COUNTDOWN TIMER -->
+      <div class="timer-section">
+        <div class="timer-label">⏱ Estimated Verification Time</div>
+        <div class="timer-display" id="timer">24:00:00</div>
+        <div class="timer-sub">Magsisimula na ang countdown — abangan ang aming mensahe!</div>
+      </div>
+
+      <!-- FOOTER NOTE -->
+      <div class="footer-note">
+        May katanungan? Makipag-ugnayan sa amin sa<br>
+        <a href="https://ascendrainternational.ai" target="_blank">ascendrainternational.ai</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.facebook.com/ascendrainternational" target="_blank">Facebook Page</a>
+        <br><br>
+        © 2026 Ascendra International. All Rights Reserved.<br>
+        Ang mga resulta ay maaaring mag-iba sa bawat tao.
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot-logo"><span>A</span>SCENDRA</div>
+    <p>Ang Partner Mo sa Pagasenso</p>
+  </footer>
+
+  <script>
+    // 24-hour countdown timer
+    var totalSeconds = 24 * 60 * 60;
+    var timerEl = document.getElementById('timer');
+
+    var interval = setInterval(function() {
+      if (totalSeconds <= 0) {
+        clearInterval(interval);
+        timerEl.textContent = 'DONE!';
+        timerEl.style.color = '#22c55e';
+        return;
+      }
+      totalSeconds--;
+      var h = Math.floor(totalSeconds / 3600);
+      var m = Math.floor((totalSeconds % 3600) / 60);
+      var s = totalSeconds % 60;
+      timerEl.textContent =
+        (h < 10 ? '0' : '') + h + ':' +
+        (m < 10 ? '0' : '') + m + ':' +
+        (s < 10 ? '0' : '') + s;
+    }, 1000);
+  </script>
+
+</body>
+</html>
